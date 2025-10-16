@@ -1,2 +1,296 @@
-# gi
-gitignore combiner and command line utility
+# gi - .gitignore Combiner
+
+A fast, intelligent CLI tool that fetches and combines official `.gitignore` templates from [github/gitignore](https://github.com/github/gitignore) into a single, deduplicated `.gitignore` file.
+
+## Features
+
+- 🚀 **Fast**: Caches templates locally for offline use
+- 🧠 **Smart**: Deduplicates rules across templates while preserving comments
+- 🔍 **Searchable**: List and search through 200+ available templates
+- 🎯 **Flexible**: Support for aliases, case-insensitive names, and custom output paths
+- 💪 **Robust**: Graceful fallback to cached content when offline
+- 🖥️ **Cross-platform**: Works on macOS, Linux, and Windows
+
+## Quick Start
+
+### Installation
+
+**Recommended (using pipx):**
+```bash
+pipx install gi
+```
+
+**Alternative (using pip):**
+```bash
+pip install gi
+```
+
+**Development installation:**
+```bash
+git clone https://github.com/joshuagrant/gi.git
+cd gi
+pip install -e .
+```
+
+### Basic Usage
+
+```bash
+# Combine multiple templates
+gi python scala rust
+
+# List all available templates
+gi list
+
+# Search for templates
+gi search studio
+
+# Show a specific template
+gi show Global/JetBrains
+
+# Append to existing .gitignore
+gi python --append
+
+# Custom output path
+gi python --output path/to/.gitignore
+```
+
+## Commands
+
+### `gi <templates...>`
+
+Combine one or more `.gitignore` templates into a single file.
+
+**Options:**
+- `-o, --output PATH`: Output file path (default: `.gitignore`)
+- `-a, --append`: Append to existing `.gitignore` instead of replacing
+- `-f, --force`: Overwrite existing file without prompting
+- `--no-cache`: Ignore cache for this run
+- `--update-index`: Refresh the list of available templates
+- `--from URL`: Override source repository URL (advanced)
+
+**Examples:**
+```bash
+# Basic usage
+gi python scala rust
+
+# With options
+gi python --append --force
+gi cpp java --output .gitignore
+gi python,scala rust  # Mixed separators work too
+```
+
+### `gi list`
+
+List all available `.gitignore` templates.
+
+```bash
+gi list
+```
+
+### `gi search <query>`
+
+Search for templates by name (case-insensitive).
+
+```bash
+gi search python
+gi search studio
+gi search global
+```
+
+### `gi show <template>`
+
+Display the raw content of a specific template.
+
+```bash
+gi show Python
+gi show Global/JetBrains
+```
+
+### `gi doctor`
+
+Show diagnostic information about gi's cache and configuration.
+
+```bash
+gi doctor
+```
+
+## Template Aliases
+
+gi supports convenient aliases for common templates:
+
+| Alias | Maps to |
+|-------|---------|
+| `cpp` | `C++` |
+| `csharp`, `c#` | `CSharp` |
+| `vscode` | `Global/VisualStudioCode` |
+| `macos`, `mac` | `Global/macOS` |
+| `jetbrains`, `intellij`, `idea` | `Global/JetBrains` |
+| `vim` | `Global/Vim` |
+| `emacs` | `Global/Emacs` |
+| `sublime` | `Global/SublimeText` |
+| `atom` | `Global/Atom` |
+| `eclipse` | `Global/Eclipse` |
+| `netbeans` | `Global/NetBeans` |
+| `xcode` | `Global/Xcode` |
+| `android` | `Global/Android` |
+| `ios` | `Global/iOS` |
+| `windows` | `Global/Windows` |
+| `linux` | `Global/Linux` |
+| `node`, `npm`, `yarn`, `js`, `javascript` | `Node` |
+| `ts`, `typescript` | `TypeScript` |
+| `react` | `React` |
+| `vue` | `Vue` |
+| `angular` | `Angular` |
+| `svelte` | `Svelte` |
+| `next` | `Next.js` |
+| `nuxt` | `Nuxt.js` |
+| `gatsby` | `Gatsby` |
+| `django` | `Django` |
+| `flask` | `Flask` |
+| `fastapi` | `FastAPI` |
+| `rails` | `Rails` |
+| `spring` | `Spring` |
+| `gradle` | `Gradle` |
+| `maven` | `Maven` |
+| `sbt`, `scala` | `Scala` |
+| `kotlin` | `Kotlin` |
+| `java` | `Java` |
+| `go`, `golang` | `Go` |
+| `rust` | `Rust` |
+| `c` | `C` |
+| `c++`, `cxx` | `C++` |
+| `fsharp` | `FSharp` |
+| `vb`, `vbnet` | `VisualBasic` |
+| `php` | `PHP` |
+| `ruby` | `Ruby` |
+| `perl` | `Perl` |
+| `python`, `py` | `Python` |
+| `r` | `R` |
+| `matlab` | `MATLAB` |
+| `octave` | `Octave` |
+| `julia` | `Julia` |
+| `haskell` | `Haskell` |
+| `ocaml` | `OCaml` |
+| `erlang` | `Erlang` |
+| `elixir` | `Elixir` |
+| `clojure` | `Clojure` |
+| `lisp` | `CommonLisp` |
+| `scheme` | `Scheme` |
+| `racket` | `Racket` |
+| `lua` | `Lua` |
+| `tcl` | `Tcl` |
+| `awk` | `Awk` |
+| `bash` | `Bash` |
+| `zsh` | `Zsh` |
+| `fish` | `Fish` |
+| `powershell`, `ps1` | `PowerShell` |
+| `docker` | `Docker` |
+| `kubernetes`, `k8s` | `Kubernetes` |
+| `terraform` | `Terraform` |
+| `ansible` | `Ansible` |
+| `vagrant` | `Vagrant` |
+| `packer` | `Packer` |
+| `helm` | `Helm` |
+
+## Caching
+
+gi caches templates locally for fast, offline access:
+
+- **macOS/Linux**: `~/.cache/gi/`
+- **Windows**: `%LOCALAPPDATA%\gi\cache\`
+
+The cache includes:
+- Template index (refreshed every 24 hours)
+- Individual template files
+- Metadata for efficient updates
+
+## Output Format
+
+Generated `.gitignore` files include:
+
+1. **Header** with generation info and source templates
+2. **Section markers** for each template
+3. **Deduplicated content** (preserves first occurrence)
+4. **Clean formatting** with collapsed blank lines
+
+Example output:
+```gitignore
+# .gitignore generated by gi
+# Source: github/gitignore (HEAD) — fetched 2024-01-15 10:30:00 UTC
+# Templates: Python, Rust
+
+###> Python.gitignore
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+###< Python.gitignore
+
+###> Rust.gitignore
+# Generated by Cargo
+debug/
+target/
+
+Cargo.lock
+###< Rust.gitignore
+```
+
+## Offline Mode
+
+gi works offline using cached templates. If you're offline and need to refresh the template list:
+
+```bash
+# This will fail gracefully and show cached templates
+gi list
+
+# When back online, refresh the index
+gi list --update-index
+```
+
+## Windows Notes
+
+On Windows, gi uses the standard `%LOCALAPPDATA%` directory for caching. If you encounter permission issues, try running your terminal as Administrator or check your antivirus software isn't blocking file access.
+
+## Development
+
+### Setup
+
+```bash
+git clone https://github.com/joshuagrant/gi.git
+cd gi
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+```
+
+### Running Tests
+
+```bash
+pytest tests/ -v
+```
+
+### Code Quality
+
+```bash
+# Format code
+black gi/ tests/
+
+# Lint code
+ruff check gi/ tests/
+```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Acknowledgments
+
+- Templates sourced from [github/gitignore](https://github.com/github/gitignore)
+- Built with [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/)
