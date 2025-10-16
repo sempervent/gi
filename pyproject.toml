@@ -40,6 +40,10 @@ dev = [
     "black>=23.0.0",
     "ruff>=0.1.0",
 ]
+build = [
+    "pyinstaller>=6.0.0",
+    "cx-freeze>=6.15.0",
+]
 
 [project.scripts]
 gi = "gi.__main__:main"
