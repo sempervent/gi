@@ -131,7 +131,7 @@ class TestGitIgnoreFetcher:
         
         responses.add(
             responses.GET,
-            "https://api.github.com/repos/github/gitignore/contents/",
+            "https://api.github.com/repos/github/gitignore/contents",
             json=api_response,
             status=200,
         )
