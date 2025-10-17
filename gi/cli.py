@@ -1,4 +1,5 @@
 """Command-line interface for gi."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -23,7 +24,8 @@ console = Console()
 @app.command()
 def main(
     templates: str = typer.Argument(
-        ..., help="Template names to combine (space or comma separated)",
+        ...,
+        help="Template names to combine (space or comma separated)",
     ),
     output: Path | None = typer.Option(
         None,
@@ -305,7 +307,8 @@ def doctor() -> None:
         for template_file in sorted(template_files):
             size = template_file.stat().st_size
             mtime = time.strftime(
-                "%Y-%m-%d %H:%M:%S", time.localtime(template_file.stat().st_mtime),
+                "%Y-%m-%d %H:%M:%S",
+                time.localtime(template_file.stat().st_mtime),
             )
             console.print(
                 f"  [cyan]{template_file.name}[/cyan] ({size} bytes, {mtime})",

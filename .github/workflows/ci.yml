@@ -37,7 +37,7 @@ jobs:
     - name: Run linting
       run: |
         uv run ruff check gi/ tests/
-        uv run black --check gi/ tests/
+        uv run ruff format --check gi/ tests/
 
     - name: Test CLI smoke test
       run: |

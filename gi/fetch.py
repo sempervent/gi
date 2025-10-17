@@ -20,7 +20,8 @@ class GitIgnoreFetcher:
     """Handles fetching and caching .gitignore templates."""
 
     def __init__(
-        self, base_url: str = "https://raw.githubusercontent.com/github/gitignore/HEAD",
+        self,
+        base_url: str = "https://raw.githubusercontent.com/github/gitignore/HEAD",
     ):
         self.base_url = base_url.rstrip("/")
         self.api_base = "https://api.github.com/repos/github/gitignore/contents"

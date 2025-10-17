@@ -1,6 +1,5 @@
 """Tests for the names module."""
 
-
 from gi.names import (
     ALIASES,
     normalize_template_name,

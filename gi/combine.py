@@ -128,7 +128,9 @@ def collapse_blank_lines(lines: list[str]) -> list[str]:
 
 
 def merge_with_existing(
-    existing_text: str, new_text: str, strategy: str = "append",
+    existing_text: str,
+    new_text: str,
+    strategy: str = "append",
 ) -> str:
     """Merge new content with existing .gitignore content."""
     if strategy == "replace":
@@ -186,7 +188,8 @@ def merge_with_existing(
 
 
 def generate_header(
-    template_names: list[str], source_url: str = "github/gitignore (HEAD)",
+    template_names: list[str],
+    source_url: str = "github/gitignore (HEAD)",
 ) -> str:
     """Generate a header for the combined .gitignore file."""
     import time  # noqa: PLC0415
@@ -233,7 +236,9 @@ def combine_templates(
     # Merge with existing content if appending
     if append and existing_content:
         combined_content = merge_with_existing(
-            existing_content, combined_content, "append",
+            existing_content,
+            combined_content,
+            "append",
         )
 
     return combined_content

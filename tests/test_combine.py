@@ -1,6 +1,5 @@
 """Tests for the combine module."""
 
-
 from gi.combine import (
     combine_templates,
     deduplicate_lines,
