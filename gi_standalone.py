@@ -2,11 +2,10 @@
 """Standalone entry point for gi executable."""
 
 import sys
-import os
 from pathlib import Path
 
 # Add the gi package to the path
-if getattr(sys, 'frozen', False):
+if getattr(sys, "frozen", False):
     # Running as PyInstaller bundle
     gi_path = Path(sys._MEIPASS) / "gi"
 else:

@@ -1,10 +1,9 @@
 """Template name normalization and aliases."""
 
-from typing import Dict, List
-
+from __future__ import annotations
 
 # Mapping of common aliases to official template names
-ALIASES: Dict[str, str] = {
+ALIASES: dict[str, str] = {
     "cpp": "C++",
     "csharp": "VisualStudio",
     "c#": "VisualStudio",
@@ -56,7 +55,6 @@ ALIASES: Dict[str, str] = {
     "c": "C",
     "c++": "C++",
     "cxx": "C++",
-    "csharp": "VisualStudio",
     "fsharp": "FSharp",
     "vb": "VisualBasic",
     "vbnet": "VisualBasic",
@@ -115,7 +113,6 @@ ALIASES: Dict[str, str] = {
     "p4d": "Perforce",
     "p4p": "Perforce",
     "p4s": "Perforce",
-    "p4v": "Perforce",
     "p4web": "Perforce",
     "p4ws": "Perforce",
     "p4x": "Perforce",
@@ -127,52 +124,50 @@ ALIASES: Dict[str, str] = {
 def normalize_template_name(name: str) -> str:
     """Normalize a template name to its canonical form."""
     # Remove .gitignore suffix if present
-    if name.endswith(".gitignore"):
-        name = name[:-10]
-    
+    name = name.removesuffix(".gitignore")
+
     # Convert to lowercase for case-insensitive matching
     name_lower = name.lower()
-    
+
     # Check aliases first
     if name_lower in ALIASES:
         return ALIASES[name_lower]
-    
+
     # Convert underscores and dashes to spaces, then title case
     normalized = name.replace("_", " ").replace("-", " ").strip()
-    
+
     # Handle special cases for Global/ templates
     if normalized.startswith("global/"):
         parts = normalized.split("/")
         return "/".join(part.title() for part in parts)
-    
+
     # Convert to title case, but preserve existing capitalization for known patterns
     if "/" in normalized:
         # Handle paths like "Global/VisualStudioCode"
         parts = normalized.split("/")
         return "/".join(part.title() for part in parts)
-    else:
-        # Handle simple names like "Python", "C++", etc.
-        return normalized.title()
+    # Handle simple names like "Python", "C++", etc.
+    return normalized.title()
 
 
-def parse_template_names(input_str: str) -> List[str]:
+def parse_template_names(input_str: str) -> list[str]:
     """Parse a string of template names, handling both spaces and commas."""
     # Split by both commas and spaces, then clean up
     names = []
     for part in input_str.replace(",", " ").split():
-        part = part.strip()
-        if part:
-            names.append(part)
-    
+        cleaned_part = part.strip()
+        if cleaned_part:
+            names.append(cleaned_part)
+
     return names
 
 
-def resolve_template_names(names: List[str]) -> List[str]:
+def resolve_template_names(names: list[str]) -> list[str]:
     """Resolve a list of template names to their canonical forms."""
     resolved = []
     for name in names:
         canonical = normalize_template_name(name)
         if canonical not in resolved:  # Avoid duplicates
             resolved.append(canonical)
-    
+
     return resolved

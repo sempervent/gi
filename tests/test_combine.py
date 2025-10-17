@@ -1,6 +1,5 @@
 """Tests for the combine module."""
 
-import pytest
 
 from gi.combine import (
     combine_templates,
@@ -14,19 +13,19 @@ from gi.combine import (
 
 class TestParseLines:
     """Test line parsing functionality."""
-    
+
     def test_parse_lines_unix(self):
         """Test parsing Unix line endings."""
         text = "line1\nline2\nline3"
         lines = parse_lines(text)
         assert lines == ["line1", "line2", "line3"]
-    
+
     def test_parse_lines_windows(self):
         """Test parsing Windows line endings."""
         text = "line1\r\nline2\r\nline3"
         lines = parse_lines(text)
         assert lines == ["line1", "line2", "line3"]
-    
+
     def test_parse_lines_mixed(self):
         """Test parsing mixed line endings."""
         text = "line1\r\nline2\nline3\r"
@@ -36,17 +35,17 @@ class TestParseLines:
 
 class TestNormalizeLine:
     """Test line normalization functionality."""
-    
+
     def test_normalize_comment(self):
         """Test normalizing comment lines."""
         line = "# This is a comment"
         assert normalize_line(line) == "# This is a comment"
-    
+
     def test_normalize_rule(self):
         """Test normalizing rule lines."""
         line = "  *.py    "
         assert normalize_line(line) == " *.py"
-    
+
     def test_normalize_rule_with_spaces(self):
         """Test normalizing rule lines with multiple spaces."""
         line = "*.py[cod]    *$py.class"
@@ -55,7 +54,7 @@ class TestNormalizeLine:
 
 class TestDeduplicateLines:
     """Test line deduplication functionality."""
-    
+
     def test_deduplicate_simple(self):
         """Test simple deduplication."""
         templates = {
@@ -63,19 +62,19 @@ class TestDeduplicateLines:
             "Rust": "*.py\ntarget/\n",
         }
         result = deduplicate_lines(templates)
-        
+
         # Should have section headers and deduplicated content
         assert "###> Python.gitignore" in result
         assert "###< Python.gitignore" in result
         assert "###> Rust.gitignore" in result
         assert "###< Rust.gitignore" in result
-        
+
         # Count occurrences of each line
         result_text = "\n".join(result)
         assert result_text.count("*.py") == 1  # Should be deduplicated
         assert result_text.count("__pycache__/") == 1
         assert result_text.count("target/") == 1
-    
+
     def test_deduplicate_with_comments(self):
         """Test deduplication with comments."""
         templates = {
@@ -83,12 +82,12 @@ class TestDeduplicateLines:
             "Rust": "# Python files\n*.py\n",
         }
         result = deduplicate_lines(templates)
-        
+
         result_text = "\n".join(result)
         # Comment + rule should be deduplicated as a unit
         assert result_text.count("# Python files") == 1
         assert result_text.count("*.py") == 1
-    
+
     def test_deduplicate_preserves_order(self):
         """Test that deduplication preserves first occurrence."""
         templates = {
@@ -96,13 +95,13 @@ class TestDeduplicateLines:
             "Rust": "*.py\n",
         }
         result = deduplicate_lines(templates)
-        
+
         # Find the position of *.py in each section
         python_section = False
         rust_section = False
         python_py_pos = -1
         rust_py_pos = -1
-        
+
         for i, line in enumerate(result):
             if line == "###> Python.gitignore":
                 python_section = True
@@ -117,7 +116,7 @@ class TestDeduplicateLines:
                     python_py_pos = i
                 elif rust_section:
                     rust_py_pos = i
-        
+
         # Python section should have the line, Rust section should not
         assert python_py_pos > 0
         assert rust_py_pos == -1
@@ -125,7 +124,7 @@ class TestDeduplicateLines:
 
 class TestGenerateHeader:
     """Test header generation functionality."""
-    
+
     def test_generate_header(self):
         """Test generating a header."""
         header = generate_header(["Python", "Rust"])
@@ -136,21 +135,21 @@ class TestGenerateHeader:
 
 class TestMergeWithExisting:
     """Test merging with existing content."""
-    
+
     def test_merge_replace(self):
         """Test replace strategy."""
         existing = "existing content"
         new = "new content"
         result = merge_with_existing(existing, new, "replace")
         assert result == new
-    
+
     def test_merge_append_empty_existing(self):
         """Test appending to empty existing content."""
         existing = ""
         new = "new content"
         result = merge_with_existing(existing, new, "append")
         assert result == new
-    
+
     def test_merge_append_with_existing(self):
         """Test appending to existing content."""
         existing = "existing line\n"
@@ -162,25 +161,25 @@ class TestMergeWithExisting:
 
 class TestCombineTemplates:
     """Test the main combine_templates function."""
-    
+
     def test_combine_empty(self):
         """Test combining empty templates."""
         result = combine_templates({})
         assert result == ""
-    
+
     def test_combine_single_template(self):
         """Test combining a single template."""
         templates = {
             "Python": "*.py\n__pycache__/\n",
         }
         result = combine_templates(templates)
-        
+
         assert "generated by gi" in result
         assert "###> Python.gitignore" in result
         assert "###< Python.gitignore" in result
         assert "*.py" in result
         assert "__pycache__/" in result
-    
+
     def test_combine_multiple_templates(self):
         """Test combining multiple templates."""
         templates = {
@@ -188,7 +187,7 @@ class TestCombineTemplates:
             "Rust": "target/\n*.rs.bk\n",
         }
         result = combine_templates(templates)
-        
+
         assert "Python, Rust" in result
         assert "###> Python.gitignore" in result
         assert "###< Python.gitignore" in result
@@ -198,7 +197,7 @@ class TestCombineTemplates:
         assert "__pycache__/" in result
         assert "target/" in result
         assert "*.rs.bk" in result
-    
+
     def test_combine_with_existing_content(self):
         """Test combining with existing content."""
         templates = {
@@ -206,17 +205,17 @@ class TestCombineTemplates:
         }
         existing = "existing line\n"
         result = combine_templates(templates, existing_content=existing, append=True)
-        
+
         assert "existing line" in result
         assert "*.py" in result
-    
+
     def test_combine_no_header(self):
         """Test combining without header."""
         templates = {
             "Python": "*.py\n",
         }
         result = combine_templates(templates, include_header=False)
-        
+
         assert "generated by gi" not in result
         assert "###> Python.gitignore" in result
         assert "*.py" in result

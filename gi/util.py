@@ -1,9 +1,9 @@
 """Utility functions for gi."""
 
-import os
+from __future__ import annotations
+
 import platform
 from pathlib import Path
-from typing import Optional
 
 import platformdirs
 
@@ -16,7 +16,7 @@ def get_cache_dir() -> Path:
     else:
         # Use ~/.cache/gi on POSIX systems
         cache_dir = platformdirs.user_cache_dir("gi")
-    
+
     cache_path = Path(cache_dir)
     cache_path.mkdir(parents=True, exist_ok=True)
     return cache_path
@@ -47,34 +47,35 @@ def is_stale_cache(cache_path: Path, max_age_hours: int = 24) -> bool:
     """Check if a cache file is stale."""
     if not cache_path.exists():
         return True
-    
-    import time
+
+    import time  # noqa: PLC0415
+
     cache_age = time.time() - cache_path.stat().st_mtime
     return cache_age > (max_age_hours * 3600)
 
 
-def safe_write_file(path: Path, content: str, force: bool = False) -> bool:
+def safe_write_file(path: Path, content: str, *, force: bool = False) -> bool:
     """Safely write content to a file, with optional force overwrite."""
     if path.exists() and not force:
         return False
-    
+
     # Create parent directories if they don't exist
     path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     # Write the file
-    with open(path, "w", encoding="utf-8") as f:
+    with path.open("w", encoding="utf-8") as f:
         f.write(content)
-    
+
     return True
 
 
-def read_existing_gitignore(path: Path) -> Optional[str]:
+def read_existing_gitignore(path: Path) -> str | None:
     """Read existing .gitignore file if it exists."""
     if not path.exists():
         return None
-    
+
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with path.open(encoding="utf-8") as f:
             return f.read()
     except (OSError, UnicodeDecodeError):
         return None
