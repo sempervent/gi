@@ -1,5 +1,13 @@
 # gi - .gitignore Combiner
 
+[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
+[![Tests](https://github.com/sempervent/gi/workflows/CI/badge.svg)](https://github.com/sempervent/gi/actions/workflows/ci.yml)
+[![Build](https://github.com/sempervent/gi/workflows/Build%20Cross-Platform%20Executables/badge.svg)](https://github.com/sempervent/gi/actions/workflows/build.yml)
+[![Coverage](https://codecov.io/gh/sempervent/gi/branch/main/graph/badge.svg)](https://codecov.io/gh/sempervent/gi)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/gi.svg)](https://pypi.org/project/gi/)
+[![Downloads](https://pepy.tech/badge/gi)](https://pepy.tech/project/gi)
+
 A fast, intelligent CLI tool that fetches and combines official `.gitignore` templates from [github/gitignore](https://github.com/github/gitignore) into a single, deduplicated `.gitignore` file.
 
 ## Features

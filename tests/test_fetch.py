@@ -60,19 +60,22 @@ class TestGitIgnoreFetcher:
             status=200,
         )
         
-        with patch("gi.fetch.get_template_cache_path") as mock_cache_path:
-            mock_cache_path.return_value = Path("/tmp/nonexistent_cache")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "Python.gitignore"
             
-            # First fetch should hit the network
-            result1 = self.fetcher.get_template("Python")
-            assert result1 == template_content
-            
-            # Second fetch should use cache (no additional network request)
-            result2 = self.fetcher.get_template("Python")
-            assert result2 == template_content
-            
-            # Should only have made one network request
-            assert len(responses.calls) == 1
+            with patch("gi.fetch.get_template_cache_path") as mock_cache_path:
+                mock_cache_path.return_value = cache_path
+                
+                # First fetch should hit the network
+                result1 = self.fetcher.get_template("Python")
+                assert result1 == template_content
+                
+                # Second fetch should use cache (no additional network request)
+                result2 = self.fetcher.get_template("Python")
+                assert result2 == template_content
+                
+                # Should only have made one network request
+                assert len(responses.calls) == 1
     
     @responses.activate
     def test_get_template_no_cache(self):
