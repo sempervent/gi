@@ -23,7 +23,7 @@ class TestGetCacheDir:
         """Test cache directory on Windows."""
         with (
             patch("platform.system", return_value="Windows"),
-            patch("platformdirs.user_cache_dir", return_value="/mock/cache/gi") as mock_cache_dir,  # noqa: E501
+            patch("platformdirs.user_cache_dir", return_value="/mock/cache/gi") as mock_cache_dir,
             patch("pathlib.Path.mkdir"),
         ):
             cache_dir = get_cache_dir()
@@ -34,7 +34,7 @@ class TestGetCacheDir:
         """Test cache directory on POSIX systems."""
         with (
             patch("platform.system", return_value="Linux"),
-            patch("platformdirs.user_cache_dir", return_value="/home/user/.cache/gi") as mock_cache_dir,  # noqa: E501
+            patch("platformdirs.user_cache_dir", return_value="/home/user/.cache/gi") as mock_cache_dir,
             patch("pathlib.Path.mkdir"),
         ):
             cache_dir = get_cache_dir()

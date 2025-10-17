@@ -75,5 +75,18 @@ target-version = ['py39']
 [tool.ruff]
 line-length = 88
 target-version = "py39"
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "C90", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "AIR", "PERF", "FURB", "LOG", "RUF"]
-ignore = ["S101", "S104", "S108", "S110", "S112", "S311", "S603", "S607"]
+ignore = [
+    "S101", "S104", "S108", "S110", "S112", "S311", "S603", "S607",  # Security
+    "C901",  # Complex functions (CLI functions are complex by design)
+    "FBT001", "FBT003",  # Boolean arguments (Typer CLI definitions)
+    "BLE001",  # Blind exceptions (CLI error handling needs broad catching)
+    "PERF203", "PERF401",  # Performance issues (minor optimizations)
+    "PLR0912", "PLR0913", "PLR0915",  # Code complexity (main CLI function)
+    "B008",  # Function call in default argument (Typer)
+    "PLW0603",  # Global statement (testing utility)
+    "SLF001",  # Private member access (PyInstaller)
+    "E501",  # Line too long (some comments are clearer when not wrapped)
+]

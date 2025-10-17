@@ -101,7 +101,7 @@ def main(
 
     if failed_templates:
         console.print(
-            f"\n[yellow]Warning:[/yellow] Failed to fetch {len(failed_templates)} template(s)",  # noqa: E501
+            f"\n[yellow]Warning:[/yellow] Failed to fetch {len(failed_templates)} template(s)",
         )
         console.print("Available templates: [bold]gi list[/bold]")
         if not templates_content:
@@ -139,7 +139,7 @@ def main(
 
     console.print(f"[green]✓[/green] Created {output}")
     console.print(
-        f"Combined {len(templates_content)} template(s): {', '.join(templates_content.keys())}",  # noqa: E501
+        f"Combined {len(templates_content)} template(s): {', '.join(templates_content.keys())}",
     )
 
 
