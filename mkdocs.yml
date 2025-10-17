@@ -1,0 +1,160 @@
+site_name: gi - .gitignore Combiner
+site_description: A fast, intelligent CLI tool that fetches and combines official .gitignore templates
+site_url: https://sempervent.github.io/gi
+repo_url: https://github.com/sempervent/gi
+repo_name: sempervent/gi
+edit_uri: edit/main/docs/
+
+# Configuration
+theme:
+  name: material
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.breadcrumbs
+    - navigation.path
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+# Plugins
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+  - awesome-pages
+
+# Markdown extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: sempervent
+      repo: gi
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tilde
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - footnotes
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+# Page tree
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - First Steps: getting-started/first-steps.md
+  - User Guide:
+    - Commands: user-guide/commands.md
+    - Templates: user-guide/templates.md
+    - Configuration: user-guide/configuration.md
+    - Advanced Usage: user-guide/advanced-usage.md
+  - Tutorials:
+    - Basic Usage: tutorials/basic-usage.md
+    - Custom Templates: tutorials/custom-templates.md
+    - CI/CD Integration: tutorials/ci-cd-integration.md
+    - Best Practices: tutorials/best-practices.md
+  - Developer Guide:
+    - Contributing: developer-guide/contributing.md
+    - Building: developer-guide/building.md
+    - Testing: developer-guide/testing.md
+    - Release Process: developer-guide/release-process.md
+  - API Reference:
+    - CLI Interface: api-reference/cli-interface.md
+    - Python API: api-reference/python-api.md
+    - Configuration Options: api-reference/configuration-options.md
+  - About:
+    - Changelog: about/changelog.md
+    - License: about/license.md
+    - Credits: about/credits.md
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sempervent/gi
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/gi/
+  version:
+    provider: mike

@@ -43,6 +43,12 @@ build = [
     "pyinstaller>=6.0.0",
     "cx-freeze>=6.15.0",
 ]
+docs = [
+    "mkdocs-material>=9.0.0",
+    "mkdocs-minify-plugin>=0.7.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.0",
+    "mkdocs-awesome-pages-plugin>=2.8.0",
+]
 
 [project.scripts]
 gi = "gi.__main__:main"
