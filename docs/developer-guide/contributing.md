@@ -15,7 +15,7 @@ We welcome contributions to `gi`! This guide will help you get started.
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - Git
 - Basic familiarity with Python development
 

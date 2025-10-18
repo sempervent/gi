@@ -1,6 +1,6 @@
 # gi - .gitignore Combiner
 
-[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://github.com/sempervent/gi/workflows/CI/badge.svg)](https://github.com/sempervent/gi/actions/workflows/ci.yml)
 [![Build](https://github.com/sempervent/gi/workflows/Build%20Cross-Platform%20Executables/badge.svg)](https://github.com/sempervent/gi/actions/workflows/build.yml)
 [![Coverage](https://codecov.io/gh/sempervent/gi/branch/main/graph/badge.svg)](https://codecov.io/gh/sempervent/gi)

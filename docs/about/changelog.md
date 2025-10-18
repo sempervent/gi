@@ -142,7 +142,7 @@ If you were using development versions:
 ## Dependencies
 
 ### Version 0.1.0
-- **Python**: 3.9+
+- **Python**: 3.10+
 - **requests**: HTTP requests
 - **typer**: CLI framework
 - **rich**: Terminal formatting

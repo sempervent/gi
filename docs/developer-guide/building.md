@@ -6,7 +6,7 @@ Learn how to build `gi` from source and create distributable packages.
 
 ### System Requirements
 
-- **Python**: 3.9 or higher
+- **Python**: 3.10 or higher
 - **Operating System**: Linux, macOS, or Windows
 - **Build Tools**: 
   - `pip` (latest version)

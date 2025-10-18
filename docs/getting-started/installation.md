@@ -4,7 +4,7 @@ This guide covers different ways to install `gi` on your system.
 
 ## Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - pip (Python package installer)
 
 ## Installation Methods
@@ -248,11 +248,11 @@ pipx install gi
 
 ### Python Version Issues
 
-Ensure you have Python 3.9 or higher:
+Ensure you have Python 3.10 or higher:
 
 ```bash
 python --version
-# Should show Python 3.9.x or higher
+# Should show Python 3.10.x or higher
 ```
 
 ### Network Issues
