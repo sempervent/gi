@@ -4,6 +4,10 @@
 
 ###> Python.gitignore
 *.py
+!tests/**/*.py
+!gi/**/*.py
+!scripts/**/*.py
+!gi_standalone.py
 __pycache__/
 
 ###< Python.gitignore
