@@ -84,12 +84,20 @@ jobs:
         
         echo "Created: $ARCHIVE_NAME"
         ls -la "$ARCHIVE_NAME"
+        
+        # Debug: List all files in current directory
+        echo "Files in current directory:"
+        ls -la
+        echo "Files matching gi-* pattern:"
+        ls -la gi-* || echo "No files matching gi-* pattern found"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: gi-${{ matrix.platform }}-${{ matrix.arch }}
-        path: gi-*.tar.gz gi-*.zip
+        path: |
+          gi-*.tar.gz
+          gi-*.zip
         retention-days: 30
 
   release:
