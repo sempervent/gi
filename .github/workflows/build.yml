@@ -123,6 +123,12 @@ jobs:
           cp "$file" release/
         done
         
+        # Debug: List what we found
+        echo "Artifacts directory contents:"
+        ls -la artifacts/
+        echo "Found files:"
+        find artifacts/ -name "gi-*" -type f
+        
         # Create a checksums file
         cd release
         sha256sum gi-*.tar.gz gi-*.zip > gi-${VERSION}-checksums.txt
