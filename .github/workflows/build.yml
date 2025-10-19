@@ -71,7 +71,8 @@ jobs:
           EXECUTABLE="gi.exe"
           ARCHIVE_NAME="gi-${VERSION}-${PLATFORM}-${ARCH}.zip"
           cd dist/*/
-          zip -r "../../${ARCHIVE_NAME}" "$EXECUTABLE"
+          # Use PowerShell's Compress-Archive for Windows
+          powershell -Command "Compress-Archive -Path '$EXECUTABLE' -DestinationPath '../../$ARCHIVE_NAME' -Force"
           cd ../../
         else
           EXECUTABLE="gi"
