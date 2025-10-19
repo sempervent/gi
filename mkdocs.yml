@@ -139,6 +139,7 @@ nav:
     - Contributing: developer-guide/contributing.md
     - Building: developer-guide/building.md
     - Testing: developer-guide/testing.md
+    - Scripts: developer-guide/scripts.md
     - Release Process: developer-guide/release-process.md
   - API Reference:
     - CLI Interface: api-reference/cli-interface.md

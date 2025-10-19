@@ -246,9 +246,23 @@ Brief description of changes
 # Build executable locally
 python scripts/build.py
 
+# Or use the simplified script
+bash scripts/build-local.sh
+
 # Test built executable
 ./dist/*/gi --help
 ```
+
+### Automation Scripts
+
+We provide several automation scripts to streamline development:
+
+- **Version Management**: `python scripts/bump_version.py [major|minor|patch]`
+- **Local Builds**: `bash scripts/build-local.sh`
+- **Release Management**: `python scripts/release.py [command]`
+- **Installation**: `bash scripts/install.sh`
+
+For detailed documentation on all scripts, see [Scripts Documentation](scripts.md).
 
 ### CI/CD
 

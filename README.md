@@ -37,6 +37,8 @@ pip install gi
 ```bash
 git clone https://github.com/joshuagrant/gi.git
 cd gi
+bash scripts/install.sh  # Automated installation
+# OR
 pip install -e .
 ```
 
@@ -264,7 +266,41 @@ On Windows, gi uses the standard `%LOCALAPPDATA%` directory for caching. If you 
 
 ## Development
 
-### Setup
+### Quick Setup
+
+```bash
+git clone https://github.com/joshuagrant/gi.git
+cd gi
+bash scripts/install.sh  # Automated setup
+```
+
+### Automation Scripts
+
+We provide several automation scripts to streamline development:
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `scripts/install.sh` | Automated installation | `bash scripts/install.sh` |
+| `scripts/bump_version.py` | Version management | `python scripts/bump_version.py minor` |
+| `scripts/build.py` | Cross-platform builds | `python scripts/build.py` |
+| `scripts/build-local.sh` | Quick local builds | `bash scripts/build-local.sh` |
+| `scripts/release.py` | Release management | `python scripts/release.py tag` |
+
+**Examples:**
+```bash
+# Bump version (0.2.0 → 0.3.0)
+python scripts/bump_version.py minor
+
+# Build executable locally
+bash scripts/build-local.sh
+
+# Create release tag
+python scripts/release.py tag
+```
+
+For detailed documentation, see [Scripts Documentation](docs/developer-guide/scripts.md).
+
+### Manual Setup
 
 ```bash
 git clone https://github.com/joshuagrant/gi.git
@@ -284,7 +320,7 @@ pytest tests/ -v
 
 ```bash
 # Format code
-black gi/ tests/
+ruff format gi/ tests/
 
 # Lint code
 ruff check gi/ tests/
