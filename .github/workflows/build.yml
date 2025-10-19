@@ -104,6 +104,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
 
     steps:
     - name: Download all artifacts
@@ -146,8 +148,9 @@ jobs:
         ls -la release/
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         files: |
           release/gi-*.tar.gz
           release/gi-*.zip
