@@ -48,6 +48,7 @@ jobs:
 
     - name: Get version from tag
       id: get_version
+      shell: bash
       run: |
         if [[ "${{ github.ref }}" == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
@@ -59,6 +60,7 @@ jobs:
         echo "Building version: $VERSION"
 
     - name: Create release archive
+      shell: bash
       run: |
         PLATFORM="${{ matrix.platform }}"
         ARCH="${{ matrix.arch }}"
@@ -102,6 +104,7 @@ jobs:
 
     - name: Get version from tag
       id: get_version
+      shell: bash
       run: |
         VERSION=${GITHUB_REF#refs/tags/}
         VERSION=${VERSION#v}
@@ -109,6 +112,7 @@ jobs:
         echo "Release version: $VERSION"
 
     - name: Prepare release files
+      shell: bash
       run: |
         VERSION="${{ steps.get_version.outputs.version }}"
         mkdir -p release
