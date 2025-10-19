@@ -117,9 +117,28 @@ class GitIgnoreFetcher:
             error_msg = f"Failed to fetch template index: {e}"
             raise RuntimeError(error_msg) from e
 
+    def resolve_template_path(self, template_name: str) -> str:
+        """Resolve a template name to its actual path in the repository."""
+        index = self.get_index()
+        templates = index.get("templates", [])
+        
+        # Create a mapping from template names to their paths
+        name_to_path = {}
+        for template in templates:
+            name = template["name"].removesuffix(".gitignore")
+            path = template["path"].removesuffix(".gitignore")
+            name_to_path[name] = path
+            # Also map the path to itself
+            name_to_path[path] = path
+        
+        # Return the resolved path or the original name if not found
+        return name_to_path.get(template_name, template_name)
+
     def get_template(self, template_name: str, *, no_cache: bool = False) -> str:
         """Get a specific template, using cache when possible."""
-        cache_path = get_template_cache_path(template_name)
+        # Resolve the template name to its actual path
+        resolved_name = self.resolve_template_path(template_name)
+        cache_path = get_template_cache_path(resolved_name)
 
         # Try cache first (unless no_cache is specified)
         if not no_cache and cache_path.exists():
@@ -130,8 +149,8 @@ class GitIgnoreFetcher:
                 # Cache read failed, continue to fetch
                 pass
 
-        # Fetch from GitHub
-        url = f"{self.base_url}/{template_name}.gitignore"
+        # Fetch from GitHub using the resolved path
+        url = f"{self.base_url}/{resolved_name}.gitignore"
 
         try:
             response = self.session.get(url)
@@ -145,8 +164,8 @@ class GitIgnoreFetcher:
             except OSError:
                 # Cache write failed, but we can still return the content
                 pass
-            else:
-                return content
+            
+            return content
 
         except requests.RequestException as e:
             # If we have cached content, use it

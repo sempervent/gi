@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Union
 
 import typer
 from rich.console import Console
@@ -11,7 +12,7 @@ from rich.table import Table
 from .combine import combine_templates
 from .fetch import get_fetcher
 from .names import parse_template_names, resolve_template_names
-from .util import get_cache_dir, read_existing_gitignore, safe_write_file
+from .util import get_auto_detect_templates, get_cache_dir, read_existing_gitignore, safe_write_file
 
 app = typer.Typer(
     name="gi",
@@ -23,11 +24,11 @@ console = Console()
 
 @app.command()
 def main(
-    templates: str = typer.Argument(
-        ...,
-        help="Template names to combine (space or comma separated)",
+    templates: Union[str, None] = typer.Argument(
+        None,
+        help="Template names to combine (space or comma separated). If not provided, auto-detect will be used.",
     ),
-    output: Path | None = typer.Option(
+    output: Union[Path, None] = typer.Option(
         None,
         "-o",
         "--output",
@@ -55,13 +56,32 @@ def main(
         "--update-index",
         help="Refresh the list of available templates",
     ),
-    from_url: str | None = typer.Option(
+    from_url: Union[str, None] = typer.Option(
         None,
         "--from",
         help="Override source repository URL (advanced)",
     ),
+    no_auto_detect: bool = typer.Option(
+        False,
+        "--no-auto-detect",
+        help="Disable automatic OS and development environment detection",
+    ),
 ) -> None:
     """Combine .gitignore templates into a single file."""
+    # Handle auto-detection if no templates provided
+    if not templates and not no_auto_detect:
+        console.print("[blue]Auto-detecting templates based on your system...[/blue]")
+        auto_detected = get_auto_detect_templates()
+        if auto_detected:
+            console.print(f"[green]Detected:[/green] {', '.join(auto_detected)}")
+            templates = " ".join(auto_detected)
+        else:
+            console.print("[yellow]No templates could be auto-detected. Please specify templates manually.[/yellow]")
+            raise typer.Exit(1)
+    elif not templates:
+        console.print("[red]Error:[/red] No templates specified and auto-detect is disabled")
+        raise typer.Exit(1)
+    
     # Parse template names
     template_names = parse_template_names(templates)
     if not template_names:

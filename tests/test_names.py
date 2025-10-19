@@ -27,7 +27,7 @@ class TestNormalizeTemplateName:
         assert normalize_template_name("cpp") == "C++"
         assert normalize_template_name("csharp") == "VisualStudio"
         assert normalize_template_name("vscode") == "Global/VisualStudioCode"
-        assert normalize_template_name("macos") == "Global/macOS"
+        assert normalize_template_name("macos") == "macOS"
         assert normalize_template_name("jetbrains") == "Global/JetBrains"
 
     def test_underscore_dash_normalization(self):

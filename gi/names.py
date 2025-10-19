@@ -8,8 +8,8 @@ ALIASES: dict[str, str] = {
     "csharp": "VisualStudio",
     "c#": "VisualStudio",
     "vscode": "Global/VisualStudioCode",
-    "macos": "Global/macOS",
-    "mac": "Global/macOS",
+    "macos": "macOS",
+    "mac": "macOS",
     "jetbrains": "Global/JetBrains",
     "intellij": "Global/JetBrains",
     "idea": "Global/JetBrains",
@@ -22,8 +22,8 @@ ALIASES: dict[str, str] = {
     "xcode": "Global/Xcode",
     "android": "Global/Android",
     "ios": "Global/iOS",
-    "windows": "Global/Windows",
-    "linux": "Global/Linux",
+    "windows": "Windows",
+    "linux": "Linux",
     "node": "Node",
     "npm": "Node",
     "yarn": "Node",
@@ -139,6 +139,9 @@ def normalize_template_name(name: str) -> str:
     # Handle special cases for Global/ templates
     if normalized.startswith("global/"):
         parts = normalized.split("/")
+        # Special handling for macOS to preserve correct capitalization
+        if len(parts) == 2 and parts[1].lower() == "macos":
+            return "Global/macOS"
         return "/".join(part.title() for part in parts)
 
     # Convert to title case, but preserve existing capitalization for known patterns
