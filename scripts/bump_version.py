@@ -44,13 +44,25 @@ def update_version_in_pyproject(new_version: str) -> None:
     pyproject_path = Path("pyproject.toml")
     content = pyproject_path.read_text()
     
-    # Replace version line
-    new_content = re.sub(
-        r'version\s*=\s*["\'][^"\']+["\']',
-        f'version = "{new_version}"',
-        content
-    )
+    # Only update the project version, not tool configurations
+    # Look for version in the [project] section specifically
+    lines = content.split('\n')
+    new_lines = []
+    in_project_section = False
     
+    for line in lines:
+        if line.strip().startswith('[project]'):
+            in_project_section = True
+        elif line.strip().startswith('[') and not line.strip().startswith('[project'):
+            in_project_section = False
+        
+        if in_project_section and line.strip().startswith('version = '):
+            # This is the project version line
+            new_lines.append(f'version = "{new_version}"')
+        else:
+            new_lines.append(line)
+    
+    new_content = '\n'.join(new_lines)
     pyproject_path.write_text(new_content)
     print(f"Updated pyproject.toml version to {new_version}")
 
@@ -76,22 +88,9 @@ def update_version_in_init(new_version: str) -> None:
 
 def update_version_in_readme(new_version: str) -> None:
     """Update version references in README.md."""
-    readme_path = Path("README.md")
-    if not readme_path.exists():
-        return
-    
-    content = readme_path.read_text()
-    
-    # Update version badges and references
-    new_content = re.sub(
-        r'v\d+\.\d+\.\d+',
-        f'v{new_version}',
-        content
-    )
-    
-    if new_content != content:
-        readme_path.write_text(new_content)
-        print(f"Updated README.md version references to {new_version}")
+    # Skip README updates to avoid conflicts with tool configurations
+    # README badges are typically dynamic and don't need manual updates
+    print(f"Skipping README.md updates (badges are dynamic)")
 
 
 def main():
