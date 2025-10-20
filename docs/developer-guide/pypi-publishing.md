@@ -20,14 +20,14 @@ The `gi` package is automatically published to PyPI when:
 Trusted publishing is more secure than API tokens and is the recommended approach.
 
 #### Step 1: Create PyPI Project
-1. Go to [PyPI](https://pypi.org) and create a new project named `gi`
+1. Go to [PyPI](https://pypi.org) and create a new project named `python-gitignore`
 2. Note: The project name must match the name in `pyproject.toml`
 
 #### Step 2: Configure Trusted Publishing
 1. In your PyPI project settings, go to "Publishing" → "Trusted publishers"
 2. Click "Add a new pending publisher"
 3. Configure the publisher:
-   - **PyPI project name**: `gi`
+   - **PyPI project name**: `python-gitignore`
    - **Owner**: `sempervent` (your GitHub username/organization)
    - **Repository name**: `gi`
    - **Workflow filename**: `publish.yml`
@@ -96,8 +96,8 @@ If using API tokens, uncomment the environment variables in the workflow:
 
 After publishing, you can verify the package is available:
 
-1. **Check PyPI**: https://pypi.org/project/gi/
-2. **Install the package**: `pip install gi`
+1. **Check PyPI**: https://pypi.org/project/python-gitignore/
+2. **Install the package**: `pip install python-gitignore`
 3. **Test the CLI**: `gi --help`
 
 ## Troubleshooting
@@ -136,9 +136,9 @@ After publishing, you can verify the package is available:
 
 ## Package Information
 
-- **Package name**: `gi`
-- **PyPI URL**: https://pypi.org/project/gi/
-- **Installation**: `pip install gi`
+- **Package name**: `python-gitignore`
+- **PyPI URL**: https://pypi.org/project/python-gitignore/
+- **Installation**: `pip install python-gitignore`
 - **CLI command**: `gi`
 
 ## Release Checklist
@@ -152,4 +152,4 @@ Before publishing a new version:
 - [ ] Test build locally: `python -m build`
 - [ ] Create GitHub release with proper tag
 - [ ] Verify publication on PyPI
-- [ ] Test installation: `pip install gi`
+- [ ] Test installation: `pip install python-gitignore`

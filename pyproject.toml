@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gi"
+name = "python-gitignore"
 version = "1.0.0"
 description = "A CLI tool to combine .gitignore templates from github/gitignore"
 readme = "README.md"

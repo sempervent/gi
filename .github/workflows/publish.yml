@@ -49,4 +49,4 @@ jobs:
     - name: Verify publication
       run: |
         echo "Package published successfully to PyPI!"
-        echo "You can view it at: https://pypi.org/project/gi/"
+        echo "You can view it at: https://pypi.org/project/python-gitignore/"

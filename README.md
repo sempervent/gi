@@ -5,8 +5,8 @@
 [![Build](https://github.com/sempervent/gi/workflows/Build%20Cross-Platform%20Executables/badge.svg)](https://github.com/sempervent/gi/actions/workflows/build.yml)
 [![Coverage](https://codecov.io/gh/sempervent/gi/branch/main/graph/badge.svg)](https://codecov.io/gh/sempervent/gi)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![PyPI](https://img.shields.io/pypi/v/gi.svg)](https://pypi.org/project/gi/)
-[![Downloads](https://pepy.tech/badge/gi)](https://pepy.tech/project/gi)
+[![PyPI](https://img.shields.io/pypi/v/python-gitignore.svg)](https://pypi.org/project/python-gitignore/)
+[![Downloads](https://pepy.tech/badge/python-gitignore)](https://pepy.tech/project/python-gitignore)
 
 A fast, intelligent CLI tool that fetches and combines official `.gitignore` templates from [github/gitignore](https://github.com/github/gitignore) into a single, deduplicated `.gitignore` file.
 
@@ -25,12 +25,12 @@ A fast, intelligent CLI tool that fetches and combines official `.gitignore` tem
 
 **Recommended (using pipx):**
 ```bash
-pipx install gi
+pipx install python-gitignore
 ```
 
 **Alternative (using pip):**
 ```bash
-pip install gi
+pip install python-gitignore
 ```
 
 **Development installation:**
