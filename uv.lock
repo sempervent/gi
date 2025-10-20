@@ -363,42 +363,6 @@ wheels = [
 ]
 
 [[package]]
-name = "gi"
-version = "1.0.0"
-source = { editable = "." }
-dependencies = [
-    { name = "platformdirs" },
-    { name = "requests" },
-    { name = "typer" },
-]
-
-[package.optional-dependencies]
-build = [
-    { name = "cx-freeze" },
-    { name = "pyinstaller" },
-]
-dev = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "responses" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "cx-freeze", marker = "extra == 'build'", specifier = ">=6.15.0" },
-    { name = "platformdirs", specifier = ">=4.0.0" },
-    { name = "pyinstaller", marker = "extra == 'build'", specifier = ">=6.0.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
-    { name = "requests", specifier = ">=2.31.0" },
-    { name = "responses", marker = "extra == 'dev'", specifier = ">=0.23.0" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
-    { name = "typer", specifier = ">=0.9.0" },
-]
-provides-extras = ["dev", "build"]
-
-[[package]]
 name = "idna"
 version = "3.11"
 source = { registry = "https://pypi.org/simple" }
@@ -610,6 +574,42 @@ sdist = { url = "https://files.pythonhosted.org/packages/5e/f7/c933acc76f5208b3b
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ee/49/1377b49de7d0c1ce41292161ea0f721913fa8722c19fb9c1e3aa0367eecb/pytest_cov-7.0.0-py3-none-any.whl", hash = "sha256:3b8e9558b16cc1479da72058bdecf8073661c7f57f7d3c5f22a1c23507f2d861", size = 22424, upload-time = "2025-09-09T10:57:00.695Z" },
 ]
+
+[[package]]
+name = "python-gitignore"
+version = "1.0.0"
+source = { editable = "." }
+dependencies = [
+    { name = "platformdirs" },
+    { name = "requests" },
+    { name = "typer" },
+]
+
+[package.optional-dependencies]
+build = [
+    { name = "cx-freeze" },
+    { name = "pyinstaller" },
+]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "responses" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cx-freeze", marker = "extra == 'build'", specifier = ">=6.15.0" },
+    { name = "platformdirs", specifier = ">=4.0.0" },
+    { name = "pyinstaller", marker = "extra == 'build'", specifier = ">=6.0.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
+    { name = "requests", specifier = ">=2.31.0" },
+    { name = "responses", marker = "extra == 'dev'", specifier = ">=0.23.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
+    { name = "typer", specifier = ">=0.9.0" },
+]
+provides-extras = ["dev", "build"]
 
 [[package]]
 name = "pywin32-ctypes"
