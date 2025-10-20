@@ -31,8 +31,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install build twine
 
+    - name: Clean previous builds
+      run: |
+        echo "Cleaning any previous build artifacts..."
+        rm -rf dist/ build/ *.egg-info/
+        echo "✅ Build directory cleaned"
+
     - name: Build package
       run: python -m build
+
+    - name: Verify build artifacts
+      run: |
+        echo "Build artifacts:"
+        ls -la dist/
+        echo "Checking for any platform-specific files..."
+        find dist/ -name "*darwin*" -o -name "*linux*" -o -name "*windows*" -o -name "*arm64*" -o -name "*x86_64*" || echo "No platform-specific files found"
 
     - name: Verify package metadata
       run: |
