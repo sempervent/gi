@@ -24,7 +24,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.11'  # Use 3.11 for building, package supports 3.10+
 
     - name: Install build dependencies
       run: |
@@ -33,6 +33,19 @@ jobs:
 
     - name: Build package
       run: python -m build
+
+    - name: Verify package metadata
+      run: |
+        echo "Verifying package supports Python 3.10+"
+        python -c "
+        import tomllib
+        with open('pyproject.toml', 'rb') as f:
+            data = tomllib.load(f)
+        requires_python = data['project']['requires-python']
+        print(f'Package requires Python: {requires_python}')
+        assert '>=3.10' in requires_python, f'Package should support Python 3.10+, got: {requires_python}'
+        print('✅ Package supports Python 3.10+')
+        "
 
     - name: Publish to PyPI
       run: |
