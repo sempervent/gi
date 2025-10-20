@@ -264,6 +264,10 @@ We provide several automation scripts to streamline development:
 
 For detailed documentation on all scripts, see [Scripts Documentation](scripts.md).
 
+### PyPI Publishing
+
+The project is automatically published to PyPI when GitHub releases are created. For detailed setup instructions and troubleshooting, see [PyPI Publishing Guide](pypi-publishing.md).
+
 ### CI/CD
 
 Our GitHub Actions will automatically:

@@ -141,6 +141,7 @@ nav:
     - Testing: developer-guide/testing.md
     - Scripts: developer-guide/scripts.md
     - Release Process: developer-guide/release-process.md
+    - PyPI Publishing: developer-guide/pypi-publishing.md
   - API Reference:
     - CLI Interface: api-reference/cli-interface.md
     - Python API: api-reference/python-api.md
