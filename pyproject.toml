@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gi"
-version = "0.2.0"
+version = "1.0.0"
 description = "A CLI tool to combine .gitignore templates from github/gitignore"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -17,7 +17,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -62,12 +61,8 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
 
-[tool.black]
-line-length = 88
-target-version = ['py39']
-
 [tool.ruff]
 line-length = 88
-target-version = "0.2.0"
+target-version = "py310"
 select = ["E", "F", "W", "C90", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "AIR", "PERF", "FURB", "LOG", "RUF"]
 ignore = ["S101", "S104", "S108", "S110", "S112", "S311", "S603", "S607"]
