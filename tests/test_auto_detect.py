@@ -1,7 +1,5 @@
 """Tests for auto-detect functionality."""
 
-import platform
-import sys
 from unittest.mock import patch
 
 import pytest
@@ -104,7 +102,10 @@ class TestDetectDevelopmentEnvironment:
 
     def test_detect_multiple_tools(self):
         """Test detection of multiple development tools."""
-        with patch("subprocess.run") as mock_run, patch("sys.executable", "/usr/bin/python"):
+        with (
+            patch("subprocess.run") as mock_run,
+            patch("sys.executable", "/usr/bin/python"),
+        ):
             mock_run.return_value.returncode = 0
             templates = detect_development_environment()
             assert "Python" in templates
@@ -116,8 +117,12 @@ class TestGetAutoDetectTemplates:
 
     def test_auto_detect_combines_os_and_dev(self):
         """Test that auto-detect combines OS and development templates."""
-        with patch("gi.util.get_os_specific_templates", return_value=["Windows"]), patch(
-            "gi.util.detect_development_environment", return_value=["Python", "Node"]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=["Windows"]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python", "Node"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "Windows" in templates
@@ -126,8 +131,12 @@ class TestGetAutoDetectTemplates:
 
     def test_auto_detect_removes_duplicates(self):
         """Test that auto-detect removes duplicate templates."""
-        with patch("gi.util.get_os_specific_templates", return_value=["Python"]), patch(
-            "gi.util.detect_development_environment", return_value=["Python", "Node"]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=["Python"]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python", "Node"],
+            ),
         ):
             templates = get_auto_detect_templates()
             # Should only have one "Python" entry
@@ -136,32 +145,48 @@ class TestGetAutoDetectTemplates:
 
     def test_auto_detect_preserves_order(self):
         """Test that auto-detect preserves template order."""
-        with patch("gi.util.get_os_specific_templates", return_value=["A", "B"]), patch(
-            "gi.util.detect_development_environment", return_value=["C", "D"]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=["A", "B"]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["C", "D"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert templates == ["A", "B", "C", "D"]
 
     def test_auto_detect_empty_os_templates(self):
         """Test auto-detect with empty OS templates."""
-        with patch("gi.util.get_os_specific_templates", return_value=[]), patch(
-            "gi.util.detect_development_environment", return_value=["Python"]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=[]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert templates == ["Python"]
 
     def test_auto_detect_empty_dev_templates(self):
         """Test auto-detect with empty development templates."""
-        with patch("gi.util.get_os_specific_templates", return_value=["Windows"]), patch(
-            "gi.util.detect_development_environment", return_value=[]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=["Windows"]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=[],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert templates == ["Windows"]
 
     def test_auto_detect_both_empty(self):
         """Test auto-detect with both OS and dev templates empty."""
-        with patch("gi.util.get_os_specific_templates", return_value=[]), patch(
-            "gi.util.detect_development_environment", return_value=[]
+        with (
+            patch("gi.util.get_os_specific_templates", return_value=[]),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=[],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert templates == []
@@ -172,8 +197,12 @@ class TestCrossPlatformAutoDetect:
 
     def test_windows_auto_detect(self):
         """Test auto-detect on Windows system."""
-        with patch("platform.system", return_value="Windows"), patch(
-            "gi.util.detect_development_environment", return_value=["Python", "Node"]
+        with (
+            patch("platform.system", return_value="Windows"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python", "Node"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "Windows" in templates
@@ -184,8 +213,12 @@ class TestCrossPlatformAutoDetect:
 
     def test_linux_auto_detect(self):
         """Test auto-detect on Linux system."""
-        with patch("platform.system", return_value="Linux"), patch(
-            "gi.util.detect_development_environment", return_value=["Python"]
+        with (
+            patch("platform.system", return_value="Linux"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "Linux" in templates
@@ -194,8 +227,12 @@ class TestCrossPlatformAutoDetect:
 
     def test_macos_auto_detect(self):
         """Test auto-detect on macOS system."""
-        with patch("platform.system", return_value="Darwin"), patch(
-            "gi.util.detect_development_environment", return_value=["Python", "Node"]
+        with (
+            patch("platform.system", return_value="Darwin"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python", "Node"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "macOS" in templates
@@ -205,8 +242,12 @@ class TestCrossPlatformAutoDetect:
 
     def test_unknown_os_auto_detect(self):
         """Test auto-detect on unknown system (fallback to Linux)."""
-        with patch("platform.system", return_value="Unknown"), patch(
-            "gi.util.detect_development_environment", return_value=["Python"]
+        with (
+            patch("platform.system", return_value="Unknown"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "Linux" in templates  # Fallback to Linux
@@ -214,16 +255,24 @@ class TestCrossPlatformAutoDetect:
 
     def test_windows_with_no_dev_tools(self):
         """Test Windows auto-detect when no development tools are detected."""
-        with patch("platform.system", return_value="Windows"), patch(
-            "gi.util.detect_development_environment", return_value=[]
+        with (
+            patch("platform.system", return_value="Windows"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=[],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert templates == ["Windows"]
 
     def test_linux_with_node_detection(self):
         """Test Linux auto-detect with Node.js detection."""
-        with patch("platform.system", return_value="Linux"), patch(
-            "gi.util.detect_development_environment", return_value=["Python", "Node"]
+        with (
+            patch("platform.system", return_value="Linux"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python", "Node"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "Linux" in templates
@@ -233,8 +282,12 @@ class TestCrossPlatformAutoDetect:
 
     def test_macos_with_python_only(self):
         """Test macOS auto-detect with only Python detected."""
-        with patch("platform.system", return_value="Darwin"), patch(
-            "gi.util.detect_development_environment", return_value=["Python"]
+        with (
+            patch("platform.system", return_value="Darwin"),
+            patch(
+                "gi.util.detect_development_environment",
+                return_value=["Python"],
+            ),
         ):
             templates = get_auto_detect_templates()
             assert "macOS" in templates
@@ -245,10 +298,10 @@ class TestCrossPlatformAutoDetect:
     def test_all_os_templates_are_valid(self):
         """Test that all OS-specific templates are valid template names."""
         from gi.fetch import get_fetcher
-        
+
         fetcher = get_fetcher()
         os_templates = ["Windows", "Linux", "macOS"]
-        
+
         for template in os_templates:
             try:
                 # Test that the template can be resolved
@@ -261,32 +314,38 @@ class TestCrossPlatformAutoDetect:
     def test_os_template_resolution_mapping(self):
         """Test that OS template names resolve to correct repository paths."""
         from gi.fetch import get_fetcher
-        
+
         fetcher = get_fetcher()
-        
+
         # Test the expected mappings
         expected_mappings = {
             "Windows": "Global/Windows",
-            "Linux": "Global/Linux", 
-            "macOS": "Global/macOS"
+            "Linux": "Global/Linux",
+            "macOS": "Global/macOS",
         }
-        
+
         for template_name, expected_path in expected_mappings.items():
             resolved_path = fetcher.resolve_template_path(template_name)
-            assert resolved_path == expected_path, f"Expected {template_name} to resolve to {expected_path}, got {resolved_path}"
+            assert resolved_path == expected_path, (
+                f"Expected {template_name} to resolve to {expected_path}, got {resolved_path}"
+            )
 
     def test_cross_platform_consistency(self):
         """Test that auto-detect behavior is consistent across platforms."""
         # Test that all platforms return at least their OS template
         platforms = [
             ("Windows", "Windows"),
-            ("Linux", "Linux"), 
-            ("Darwin", "macOS")
+            ("Linux", "Linux"),
+            ("Darwin", "macOS"),
         ]
-        
+
         for platform_name, expected_template in platforms:
-            with patch("platform.system", return_value=platform_name), patch(
-                "gi.util.detect_development_environment", return_value=[]
+            with (
+                patch("platform.system", return_value=platform_name),
+                patch(
+                    "gi.util.detect_development_environment",
+                    return_value=[],
+                ),
             ):
                 templates = get_auto_detect_templates()
                 assert expected_template in templates

@@ -121,7 +121,7 @@ class GitIgnoreFetcher:
         """Resolve a template name to its actual path in the repository."""
         index = self.get_index()
         templates = index.get("templates", [])
-        
+
         # Create a mapping from template names to their paths
         name_to_path = {}
         for template in templates:
@@ -130,7 +130,7 @@ class GitIgnoreFetcher:
             name_to_path[name] = path
             # Also map the path to itself
             name_to_path[path] = path
-        
+
         # Return the resolved path or the original name if not found
         return name_to_path.get(template_name, template_name)
 
@@ -164,7 +164,7 @@ class GitIgnoreFetcher:
             except OSError:
                 # Cache write failed, but we can still return the content
                 pass
-            
+
             return content
 
         except requests.RequestException as e:

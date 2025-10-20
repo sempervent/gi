@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Union
 
 import typer
 from rich.console import Console
@@ -12,7 +11,12 @@ from rich.table import Table
 from .combine import combine_templates
 from .fetch import get_fetcher
 from .names import parse_template_names, resolve_template_names
-from .util import get_auto_detect_templates, get_cache_dir, read_existing_gitignore, safe_write_file
+from .util import (
+    get_auto_detect_templates,
+    get_cache_dir,
+    read_existing_gitignore,
+    safe_write_file,
+)
 
 app = typer.Typer(
     name="gi",
@@ -24,11 +28,11 @@ console = Console()
 
 @app.command()
 def main(
-    templates: Union[str, None] = typer.Argument(
+    templates: str | None = typer.Argument(
         None,
         help="Template names to combine (space or comma separated). If not provided, auto-detect will be used.",
     ),
-    output: Union[Path, None] = typer.Option(
+    output: Path | None = typer.Option(
         None,
         "-o",
         "--output",
@@ -56,7 +60,7 @@ def main(
         "--update-index",
         help="Refresh the list of available templates",
     ),
-    from_url: Union[str, None] = typer.Option(
+    from_url: str | None = typer.Option(
         None,
         "--from",
         help="Override source repository URL (advanced)",
@@ -76,12 +80,16 @@ def main(
             console.print(f"[green]Detected:[/green] {', '.join(auto_detected)}")
             templates = " ".join(auto_detected)
         else:
-            console.print("[yellow]No templates could be auto-detected. Please specify templates manually.[/yellow]")
+            console.print(
+                "[yellow]No templates could be auto-detected. Please specify templates manually.[/yellow]"
+            )
             raise typer.Exit(1)
     elif not templates:
-        console.print("[red]Error:[/red] No templates specified and auto-detect is disabled")
+        console.print(
+            "[red]Error:[/red] No templates specified and auto-detect is disabled"
+        )
         raise typer.Exit(1)
-    
+
     # Parse template names
     template_names = parse_template_names(templates)
     if not template_names:
@@ -94,7 +102,7 @@ def main(
     # Set up fetcher
     fetcher = get_fetcher()
     if from_url:
-        from .fetch import GitIgnoreFetcher  # noqa: PLC0415
+        from .fetch import GitIgnoreFetcher
 
         fetcher = GitIgnoreFetcher(from_url)
 
@@ -270,11 +278,11 @@ def show(
 @app.command(name="doctor")
 def doctor() -> None:
     """Show diagnostic information about gi's cache and configuration."""
-    import json  # noqa: PLC0415
-    import time  # noqa: PLC0415
+    import json
+    import time
 
-    from .fetch import get_fetcher  # noqa: PLC0415
-    from .util import get_index_cache_path  # noqa: PLC0415
+    from .fetch import get_fetcher
+    from .util import get_index_cache_path
 
     console.print("[bold]gi Diagnostic Information[/bold]\n")
 
@@ -304,7 +312,7 @@ def doctor() -> None:
             console.print(f"Template count: [blue]{template_count}[/blue]")
 
             # Check if index is stale
-            from .util import is_stale_cache  # noqa: PLC0415
+            from .util import is_stale_cache
 
             if is_stale_cache(index_path):
                 console.print(

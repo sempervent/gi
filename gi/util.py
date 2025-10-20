@@ -49,7 +49,7 @@ def is_stale_cache(cache_path: Path, max_age_hours: int = 24) -> bool:
     if not cache_path.exists():
         return True
 
-    import time  # noqa: PLC0415
+    import time
 
     cache_age = time.time() - cache_path.stat().st_mtime
     return cache_age > (max_age_hours * 3600)
@@ -85,22 +85,21 @@ def read_existing_gitignore(path: Path) -> str | None:
 def detect_operating_system() -> str:
     """Detect the current operating system."""
     system = platform.system().lower()
-    
+
     if system == "windows":
         return "windows"
-    elif system == "darwin":
+    if system == "darwin":
         return "macos"
-    elif system == "linux":
+    if system == "linux":
         return "linux"
-    else:
-        # Fallback for other systems
-        return "linux"
+    # Fallback for other systems
+    return "linux"
 
 
 def get_os_specific_templates() -> list[str]:
     """Get OS-specific .gitignore templates based on the current OS."""
     os_type = detect_operating_system()
-    
+
     # OS-specific template mappings
     os_templates = {
         "windows": [
@@ -113,18 +112,18 @@ def get_os_specific_templates() -> list[str]:
             "Linux",
         ],
     }
-    
+
     return os_templates.get(os_type, ["Linux"])
 
 
 def detect_development_environment() -> list[str]:
     """Detect common development environments and return appropriate templates."""
     templates = []
-    
+
     # Check for common development tools
     try:
         import subprocess
-        
+
         # Check for Node.js/npm
         try:
             subprocess.run(["node", "--version"], capture_output=True, check=True)
@@ -132,36 +131,35 @@ def detect_development_environment() -> list[str]:
             templates.append("Node")
         except (subprocess.CalledProcessError, FileNotFoundError):
             pass
-            
+
         # Check for Python
         if sys.executable:
             templates.append("Python")
-            
+
         # Check for Git
         try:
             subprocess.run(["git", "--version"], capture_output=True, check=True)
             # Git is always available if we're using gi, so don't add a template
-            pass
         except (subprocess.CalledProcessError, FileNotFoundError):
             pass
-            
+
     except ImportError:
         # Fallback if subprocess is not available
         pass
-    
+
     return templates
 
 
 def get_auto_detect_templates() -> list[str]:
     """Get automatically detected templates based on OS and development environment."""
     templates = []
-    
+
     # Add OS-specific templates
     templates.extend(get_os_specific_templates())
-    
+
     # Add development environment templates
     templates.extend(detect_development_environment())
-    
+
     # Remove duplicates while preserving order
     seen = set()
     unique_templates = []
@@ -169,5 +167,5 @@ def get_auto_detect_templates() -> list[str]:
         if template not in seen:
             seen.add(template)
             unique_templates.append(template)
-    
+
     return unique_templates

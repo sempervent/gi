@@ -12,12 +12,12 @@ def get_current_version() -> str:
     pyproject_path = Path("pyproject.toml")
     if not pyproject_path.exists():
         raise FileNotFoundError("pyproject.toml not found")
-    
+
     content = pyproject_path.read_text()
     match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
     if not match:
         raise ValueError("Could not find version in pyproject.toml")
-    
+
     return match.group(1)
 
 
@@ -26,43 +26,42 @@ def bump_version(version: str, bump_type: str) -> str:
     parts = version.split(".")
     if len(parts) != 3:
         raise ValueError(f"Invalid version format: {version}")
-    
+
     major, minor, patch = map(int, parts)
-    
+
     if bump_type == "major":
         return f"{major + 1}.0.0"
-    elif bump_type == "minor":
+    if bump_type == "minor":
         return f"{major}.{minor + 1}.0"
-    elif bump_type == "patch":
+    if bump_type == "patch":
         return f"{major}.{minor}.{patch + 1}"
-    else:
-        raise ValueError(f"Invalid bump type: {bump_type}")
+    raise ValueError(f"Invalid bump type: {bump_type}")
 
 
 def update_version_in_pyproject(new_version: str) -> None:
     """Update version in pyproject.toml."""
     pyproject_path = Path("pyproject.toml")
     content = pyproject_path.read_text()
-    
+
     # Only update the project version, not tool configurations
     # Look for version in the [project] section specifically
-    lines = content.split('\n')
+    lines = content.split("\n")
     new_lines = []
     in_project_section = False
-    
+
     for line in lines:
-        if line.strip().startswith('[project]'):
+        if line.strip().startswith("[project]"):
             in_project_section = True
-        elif line.strip().startswith('[') and not line.strip().startswith('[project'):
+        elif line.strip().startswith("[") and not line.strip().startswith("[project"):
             in_project_section = False
-        
-        if in_project_section and line.strip().startswith('version = '):
+
+        if in_project_section and line.strip().startswith("version = "):
             # This is the project version line
             new_lines.append(f'version = "{new_version}"')
         else:
             new_lines.append(line)
-    
-    new_content = '\n'.join(new_lines)
+
+    new_content = "\n".join(new_lines)
     pyproject_path.write_text(new_content)
     print(f"Updated pyproject.toml version to {new_version}")
 
@@ -72,15 +71,15 @@ def update_version_in_init(new_version: str) -> None:
     init_path = Path("gi/__init__.py")
     if not init_path.exists():
         return
-    
+
     content = init_path.read_text()
-    
+
     # Look for __version__ = "..." pattern
-    if '__version__' in content:
+    if "__version__" in content:
         new_content = re.sub(
             r'__version__\s*=\s*["\'][^"\']+["\']',
             f'__version__ = "{new_version}"',
-            content
+            content,
         )
         init_path.write_text(new_content)
         print(f"Updated gi/__init__.py version to {new_version}")
@@ -90,7 +89,7 @@ def update_version_in_readme(new_version: str) -> None:
     """Update version references in README.md."""
     # Skip README updates to avoid conflicts with tool configurations
     # README badges are typically dynamic and don't need manual updates
-    print(f"Skipping README.md updates (badges are dynamic)")
+    print("Skipping README.md updates (badges are dynamic)")
 
 
 def main():
@@ -99,34 +98,34 @@ def main():
     parser.add_argument(
         "bump_type",
         choices=["major", "minor", "patch"],
-        help="Type of version bump"
+        help="Type of version bump",
     )
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Show what would be changed without making changes"
+        help="Show what would be changed without making changes",
     )
-    
+
     args = parser.parse_args()
-    
+
     try:
         current_version = get_current_version()
         print(f"Current version: {current_version}")
-        
+
         new_version = bump_version(current_version, args.bump_type)
         print(f"New version: {new_version}")
-        
+
         if args.dry_run:
             print("Dry run - no changes made")
             return
-        
+
         # Update files
         update_version_in_pyproject(new_version)
         update_version_in_init(new_version)
         update_version_in_readme(new_version)
-        
+
         print(f"Successfully bumped version from {current_version} to {new_version}")
-        
+
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

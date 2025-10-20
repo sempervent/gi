@@ -56,10 +56,13 @@ def main():
     """Main function."""
     parser = argparse.ArgumentParser(description="Release management for gi")
     parser.add_argument(
-        "command", choices=["tag", "build", "help"], help="Command to run",
+        "command",
+        choices=["tag", "build", "help"],
+        help="Command to run",
     )
     parser.add_argument(
-        "--version", help="Version to tag (default: from pyproject.toml)",
+        "--version",
+        help="Version to tag (default: from pyproject.toml)",
     )
     parser.add_argument("--message", help="Tag message")
     parser.add_argument(

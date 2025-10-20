@@ -192,7 +192,7 @@ def generate_header(
     source_url: str = "github/gitignore (HEAD)",
 ) -> str:
     """Generate a header for the combined .gitignore file."""
-    import time  # noqa: PLC0415
+    import time
 
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
     templates_str = ", ".join(template_names)

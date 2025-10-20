@@ -64,5 +64,26 @@ addopts = "-v --tb=short"
 [tool.ruff]
 line-length = 88
 target-version = "py310"
+
+[tool.ruff.lint]
 select = ["E", "F", "W", "C90", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "AIR", "PERF", "FURB", "LOG", "RUF"]
-ignore = ["S101", "S104", "S108", "S110", "S112", "S311", "S603", "S607"]
+ignore = [
+    "S101", "S104", "S108", "S110", "S112", "S311", "S603", "S607",  # Security
+    "C901", "PLR0912", "PLR0913", "PLR0915",  # Complexity (CLI functions are complex by nature)
+    "FBT001", "FBT003",  # Boolean arguments (Typer CLI patterns)
+    "B008",  # Function calls in defaults (Typer pattern)
+    "BLE001",  # Blind exceptions (acceptable for CLI error handling)
+    "PERF203",  # Try-except in loops (acceptable for template fetching)
+    "PLW0603",  # Global statement (testing pattern)
+    "PLR2004",  # Magic values (acceptable for version parsing)
+    "PLC0415",  # Import at top level (acceptable for conditional imports)
+    "SIM105",  # Contextlib suppress (prefer explicit try-except for clarity)
+    "TRY003", "EM101", "EM102",  # Exception messages (acceptable for scripts)
+    "T201",  # Print statements (acceptable for CLI scripts)
+    "ARG001",  # Unused arguments (acceptable for interface compatibility)
+    "E501",  # Line too long (acceptable for long strings and comments)
+    "W291", "W293",  # Whitespace (will be fixed by formatter)
+    "COM812",  # Trailing comma (will be fixed by formatter)
+    "PERF401",  # List comprehension (acceptable for template processing)
+    "TRY300",  # Try-except structure (acceptable for error handling)
+]

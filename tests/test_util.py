@@ -24,7 +24,8 @@ class TestGetCacheDir:
         with (
             patch("platform.system", return_value="Windows"),
             patch(
-                "platformdirs.user_cache_dir", return_value="/mock/cache/gi"
+                "platformdirs.user_cache_dir",
+                return_value="/mock/cache/gi",
             ) as mock_cache_dir,
             patch("pathlib.Path.mkdir"),
         ):
@@ -37,7 +38,8 @@ class TestGetCacheDir:
         with (
             patch("platform.system", return_value="Linux"),
             patch(
-                "platformdirs.user_cache_dir", return_value="/home/user/.cache/gi"
+                "platformdirs.user_cache_dir",
+                return_value="/home/user/.cache/gi",
             ) as mock_cache_dir,
             patch("pathlib.Path.mkdir"),
         ):
@@ -155,7 +157,7 @@ class TestIsStaleCache:
 
             # Mock the file to be old
             with patch("pathlib.Path.stat") as mock_stat:
-                import time  # noqa: PLC0415
+                import time
 
                 old_time = time.time() - (25 * 3600)  # 25 hours ago
                 mock_stat.return_value.st_mtime = old_time
